@@ -8,19 +8,14 @@ import java.util.List;
 
 import com.google.common.collect.Lists;
 
-import edu.bsu.dachristman.core.Console;
 import edu.bsu.dachristman.core.World;
 import playn.core.Image;
 import playn.core.ImageLayer;
 import playn.core.Pointer;
 import playn.core.Pointer.Event;
 import playn.core.util.Clock;
-import pythagoras.f.Point;
 import tripleplay.game.UIAnimScreen;
 import tripleplay.ui.Label;
-import tripleplay.ui.Root;
-import tripleplay.ui.SimpleStyles;
-import tripleplay.ui.layout.AbsoluteLayout;
 
 public class PlayingScreen extends UIAnimScreen {
 
@@ -28,8 +23,8 @@ public class PlayingScreen extends UIAnimScreen {
 	private List<Entity> toDelete = Lists.newArrayList();
 	private final World world = new World();
 	private Entity target = new Target(world);
-	private final Label scoreLabel = new Label("Score: " + world.score.get());
-	private final Label lifeLabel = new Label("Lives: " + world.lives.get());
+//	private final Label scoreLabel = new Label("Score: " + world.score.get());
+//	private final Label lifeLabel = new Label("Lives: " + world.lives.get());
 	private final Label consoleLabel = new Label("");
 	private final Console console = new Console(5);
 	private boolean playable = true;
@@ -64,22 +59,22 @@ public class PlayingScreen extends UIAnimScreen {
 	}
 
 	private void createHUD() {
-		Root root = iface.createRoot(//
-				new AbsoluteLayout(), SimpleStyles.newSheet(), layer)//
-				.setSize(world.right(), world.bottom());
-		root.add(AbsoluteLayout.at(lifeLabel,//
-				new Point(world.left() + 10, world.top() + 10)));
-		root.add(AbsoluteLayout.at(scoreLabel,//
-				new Point(world.right() - 100, world.top() + 10)));
-		root.add(AbsoluteLayout.at(consoleLabel,//
-				new Point(world.left() + 10,//
-						world.bottom() - console.textSize())));
+//		Root root = iface.createRoot(//
+//				new AbsoluteLayout(), SimpleStyles.newSheet(), layer)//
+//				.setSize(world.right(), world.bottom());
+//		root.add(AbsoluteLayout.at(lifeLabel,//
+//				new Point(world.left() + 10, world.top() + 10)));
+//		root.add(AbsoluteLayout.at(scoreLabel,//
+//				new Point(world.right() - 100, world.top() + 10)));
+//		root.add(AbsoluteLayout.at(consoleLabel,//
+//				new Point(world.left() + 10,//
+//						world.bottom() - console.textSize())));
 	}
 
 	private void setNewTarget() {
 		target.clear();
-		target = new Target(world.randX(), world.randY(), world,
-				world.score.get());
+//		target = new Target(world.randX(), world.randY(), world,
+//				world.score.get());
 	}
 
 	@Override
@@ -117,19 +112,19 @@ public class PlayingScreen extends UIAnimScreen {
 	}
 
 	private void updateLives(int i) {
-		world.loseLife(i);
+//		world.loseLife(i);
 		checkGameOver();
 	}
 
 	private void checkGameOver() {
-		if (world.lives.get() == 0) {
-			startNewGame();
-		}
+//		if (world.lives.get() == 0) {
+//			startNewGame();
+//		}
 	}
 
 	private void startNewGame() {
 		playable = false;
-		console.addGameOverMessage(world.score.get(), numBalls);
+//		console.addGameOverMessage(world.score.get(), numBalls);
 		final ImageLayer gameOver = graphics().createImageLayer(
 				assets().getImage("images/gameOver.png"));
 		graphics().rootLayer().add(gameOver);
@@ -143,7 +138,7 @@ public class PlayingScreen extends UIAnimScreen {
 					@Override
 					public void run() {
 						setNewTarget();
-						world.reset();
+//						world.reset();
 						toDelete.addAll(entities);
 						entities.clear();
 						playable = true;
@@ -154,7 +149,7 @@ public class PlayingScreen extends UIAnimScreen {
 	}
 
 	private void updateScore(int i) {
-		world.addScore(i);
+//		world.addScore(i);
 	}
 
 	private void removeEntities() {
@@ -166,8 +161,8 @@ public class PlayingScreen extends UIAnimScreen {
 	}
 
 	private void updateLabels() {
-		lifeLabel.text.update("Lives : " + world.lives.get());
-		scoreLabel.text.update("Score : " + world.score.get());
+//		lifeLabel.text.update("Lives : " + world.lives.get());
+//		scoreLabel.text.update("Score : " + world.score.get());
 		consoleLabel.text.update(console.text());
 	}
 

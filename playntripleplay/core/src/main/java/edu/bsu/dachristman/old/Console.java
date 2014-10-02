@@ -1,11 +1,9 @@
-package edu.bsu.dachristman.core;
+package edu.bsu.dachristman.old;
 
 import java.util.List;
 import java.util.ListIterator;
 
 import com.google.common.collect.Lists;
-
-import edu.bsu.dachristman.old.Entity;
 
 public class Console {
 

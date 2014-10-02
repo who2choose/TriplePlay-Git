@@ -2,7 +2,6 @@ package edu.bsu.dachristman.screen;
 
 import edu.bsu.dachristman.backend.ImageLoader;
 import edu.bsu.dachristman.core.ProgramMain;
-import edu.bsu.dachristman.old.GameScreen;
 import pythagoras.f.Point;
 import tripleplay.ui.Label;
 import tripleplay.ui.Root;
@@ -25,7 +24,6 @@ public class LoadingScreen extends CustomScreen {
 				graphics().height());
 		label.setStyles(Style.COLOR.is(Colors.WHITE));
 		root.add(AbsoluteLayout.at(label, new Point(10, 10)));
-		ProgramMain.screenStack.push(new GameScreen());
 	}
 
 	@Override
@@ -49,7 +47,7 @@ public class LoadingScreen extends CustomScreen {
 	@Override
 	public void onClickDown(Event e) {
 		if (ready){
-			ProgramMain.changeScreen(new MenuScreen());
+			ProgramMain.changeScreen(new GridScreen());
 		}
 	}
 

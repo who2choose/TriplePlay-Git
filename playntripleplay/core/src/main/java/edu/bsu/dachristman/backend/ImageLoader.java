@@ -11,15 +11,9 @@ import playn.core.Image;
 
 public class ImageLoader {
 
-	public Image IMAGEGameOver;
-	public Image IMAGEShapeBallBlack;
-	public Image IMAGEShapeBallRed;
-	public Image IMAGEShapeSquareBlue;
-	public Image IMAGEShapeThreePoint;
-	public Image IMAGEShapeStar;
-
 	private static String[] imageNames = { "bg", "gameOver", "shapeBallBlack",
-			"shapeBallRed", "shapeSquareBlue", "shapeThreePoint", "star" };
+			"shapeBallRed", "shapeSquareBlue", "shapeThreePoint", "star",
+			"entity_ball", "entity_hub", "map_tiles", "player" };
 	private static Image[] images = new Image[imageNames.length];
 
 	private static boolean loaded = false;
@@ -32,8 +26,8 @@ public class ImageLoader {
 		}
 		createTimer();
 	}
-	
-	private static void createTimer(){
+
+	private static void createTimer() {
 		final ActionListener listener = new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
