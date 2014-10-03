@@ -10,6 +10,7 @@ import org.jbox2d.dynamics.World;
 import com.google.common.collect.Lists;
 
 import edu.bsu.dachristman.core.Floor;
+import edu.bsu.dachristman.entity.CharacterController;
 import edu.bsu.dachristman.entity.Charlie;
 import edu.bsu.dachristman.entity.Direction;
 import edu.bsu.dachristman.entity.Grid;
@@ -44,10 +45,7 @@ public class GridScreen extends CustomScreen {
 	}
 
 	private void createPlayer() {
-		player = Player.createPlayer(box2dWorld).position(graphics().width() / 2, graphics().height() / 2);
-		
-//		player = Player.createIn(box2dWorld)//
-//				.at(graphics().width() / 2, graphics().height() / 2);
+		player = Player.createPlayer(box2dWorld).position(60, graphics().height() / 2);
 		layer.add(player.layer);
 		characterController = new CharacterController(player);
 	}
@@ -85,6 +83,9 @@ public class GridScreen extends CustomScreen {
 			break;
 		case RIGHT:
 			characterController.setInputStateOn(Direction.RIGHT);
+			break;
+		case SPACE:
+			characterController.setInputStateOn(Direction.JUMP);
 			break;
 		default:
 			break;

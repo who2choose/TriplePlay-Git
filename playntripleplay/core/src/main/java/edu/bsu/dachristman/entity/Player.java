@@ -21,6 +21,7 @@ public final class Player {
 		Player.body = createBodyIn(world);
 		FixtureDef fixtureDef = createFixtureDef();
 		Player.body.createFixture(fixtureDef);
+		Player.body.setFixedRotation(true);
 		return Player;
 	}
 
@@ -33,18 +34,16 @@ public final class Player {
 	private static FixtureDef createFixtureDef() {
 		FixtureDef fixtureDef = new FixtureDef();
 		fixtureDef.shape = createPlayerBox();
-		fixtureDef.density = 5f;
-		fixtureDef.friction = 0.5f;
-		fixtureDef.restitution = 1f;
+		fixtureDef.density = 1000f;
+		fixtureDef.friction = 0.0f;
+		fixtureDef.restitution = 0.0f;
 		fixtureDef.userData = "Player";
 		return fixtureDef;
 	}
 
 	private static PolygonShape createPlayerBox() {
 		PolygonShape shape = new PolygonShape();
-		float size = 1.6f;
-		System.out.println(size);
-		shape.setAsBox(size, size);
+		shape.setAsBox(1f, 1.6f);
 		return shape;
 	}
 
@@ -77,12 +76,30 @@ public final class Player {
 	}
 
 	public void moveLeft(int deltaMS) {
-		body.setTransform(new Vec2(body.getPosition().x-1, body.getPosition().y), body.getAngle());
+		body.setLinearVelocity(new Vec2(-10, body.getLinearVelocity().y));
+//		body.applyForceToCenter(new Vec2(-20, 0));
+//		body.setTransform(new Vec2(body.getPosition().x-1, body.getPosition().y), body.getAngle());
 		updateLayerPosition();
 	}
 
 	public void moveRight(int deltaMS) {
-		body.setTransform(new Vec2(body.getPosition().x+1, body.getPosition().y), body.getAngle());
+		body.setLinearVelocity(new Vec2(10, body.getLinearVelocity().y));
+//		body.applyForceToCenter(new Vec2(20, 0));
+//		body.setTransform(new Vec2(body.getPosition().x+1, body.getPosition().y), body.getAngle());
+		updateLayerPosition();
+	}
+	
+	public void moveNone(int deltaMS) {
+		body.setLinearVelocity(new Vec2(0, body.getLinearVelocity().y));
+//		body.applyForceToCenter(new Vec2(20, 0));
+//		body.setTransform(new Vec2(body.getPosition().x+1, body.getPosition().y), body.getAngle());
+		updateLayerPosition();
+	}
+	
+	public void jump() {
+		body.setLinearVelocity(new Vec2(body.getLinearVelocity().x, -10));
+//		body.applyForceToCenter(new Vec2(20, 0));
+//		body.setTransform(new Vec2(body.getPosition().x+1, body.getPosition().y), body.getAngle());
 		updateLayerPosition();
 	}
 

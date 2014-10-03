@@ -1,16 +1,12 @@
-package edu.bsu.dachristman.screen;
+package edu.bsu.dachristman.entity;
 
 import static com.google.common.base.Preconditions.checkNotNull;
-import edu.bsu.dachristman.entity.Direction;
-import edu.bsu.dachristman.entity.Player;
 
 public final class CharacterController {
 
 	private final Player player;
 	private boolean RIGHT = false;
 	private boolean LEFT = false;
-
-	// private boolean JUMP = false;
 
 	public CharacterController(Player player) {
 		this.player = checkNotNull(player);
@@ -21,6 +17,8 @@ public final class CharacterController {
 			RIGHT = true;
 		if (direction == Direction.LEFT)
 			LEFT = true;
+		if (direction == Direction.JUMP)
+			player.jump();
 	}
 
 	public void setInputStateOff(Direction direction) {
@@ -35,6 +33,8 @@ public final class CharacterController {
 			player.moveLeft(deltaMS);
 		if (RIGHT)
 			player.moveRight(deltaMS);
+		if ((!LEFT && !RIGHT) || (LEFT && RIGHT))
+			player.moveNone(deltaMS);
 	}
 
 }
