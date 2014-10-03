@@ -29,6 +29,8 @@ public class Grid {
 
 	private void readInFile(GridScreen gridScreen) {
 		readText();
+		Image black = ImageLoader.getImage("map_tiles")
+				.subImage(0, 64, 32, 32);
 		Image white = ImageLoader.getImage("map_tiles")
 				.subImage(33, 64, 32, 32);
 
@@ -36,23 +38,15 @@ public class Grid {
 			for (int j = 0; j < WIDTH; j++) {
 				int a = Integer.parseInt(nextString());
 				if (a == 0) {
-					Tile tile = Tile.createTile(world).position(
-							(j * 32) + 16, (i * 32) + 16);
-					gridScreen.add(tile.layer);
-					tiles.add(tile);
-					// IMAGES[i][j] = new Tile(a, graphics().createImageLayer(
-					// black));
-
+					new Block(world, (j*32), (i*32));
+					Layer blackSpace = graphics().createImageLayer(black);
+					blackSpace.setTranslation((j * 32), (i * 32));
+					gridScreen.add(blackSpace);
 				} else if (a == 1) {
 					Layer whiteSpace = graphics().createImageLayer(white);
-					;
 					whiteSpace.setTranslation((j * 32), (i * 32));
 					gridScreen.add(whiteSpace);
-					// IMAGES[i][j] = new Tile(a, graphics().createImageLayer(
-					// white));
 				}
-				// IMAGES[i][j].setXY(j * 32, i * 32);
-				// System.out.printf("I: %d J: %d\n", (i * 32), (j * 32));
 			}
 		}
 	}

@@ -3,7 +3,6 @@ package edu.bsu.dachristman.entity;
 import static playn.core.PlayN.graphics;
 
 import org.jbox2d.collision.shapes.PolygonShape;
-import org.jbox2d.collision.shapes.Shape;
 import org.jbox2d.common.Vec2;
 import org.jbox2d.dynamics.Body;
 import org.jbox2d.dynamics.BodyDef;
@@ -13,85 +12,78 @@ import org.jbox2d.dynamics.World;
 
 import edu.bsu.dachristman.backend.ImageLoader;
 import playn.core.Image;
-import playn.core.ImageLayer;
+import playn.core.Layer;
 
-public class Player {
+public final class Player {
 
-	public ImageLayer layer;
-	private float x, y, vx, vy, ax, ay;
-	private Body body;
-
-	public Player(World world) {
-		layer = graphics().createImageLayer(
-				ImageLoader.getImage("player").subImage(0, 0, 32, 32));
-		layer.setOrigin(32 / 2, 32 / 2);
-		// x = 40;
-		// y = 300;
-		// vx = 0;
-		// vy = 0;
-		// ax = 0;
-		// ay = 50f;
-
-		body = createBodyIn(world);
-		updatePhysicsBasedOnLayer();
+	public static Player createPlayer(World world) {
+		Player Player = new Player();
+		Player.body = createBodyIn(world);
+		FixtureDef fixtureDef = createFixtureDef();
+		Player.body.createFixture(fixtureDef);
+		return Player;
 	}
 
-	private Body createBodyIn(World world) {
+	private static Body createBodyIn(World world) {
 		BodyDef bodyDef = new BodyDef();
-		bodyDef.type = BodyType.STATIC;
-		Body body = world.createBody(bodyDef);
-		body.createFixture(createFixtureDef());
-		return body;
+		bodyDef.type = BodyType.DYNAMIC;
+		return world.createBody(bodyDef);
 	}
 
 	private static FixtureDef createFixtureDef() {
 		FixtureDef fixtureDef = new FixtureDef();
-		fixtureDef.density = 1.0f;
-		fixtureDef.friction = 1.0f;
-		fixtureDef.shape = makeImageBox();
+		fixtureDef.shape = createPlayerBox();
+		fixtureDef.density = 5f;
+		fixtureDef.friction = 0.5f;
+		fixtureDef.restitution = 1f;
+		fixtureDef.userData = "Player";
 		return fixtureDef;
 	}
 
-	private static Shape makeImageBox() {
+	private static PolygonShape createPlayerBox() {
 		PolygonShape shape = new PolygonShape();
-		shape.setAsBox(32 / 2 / 10,//
-				32 / 2 / 10);
+		float size = 1.6f;
+		System.out.println(size);
+		shape.setAsBox(size, size);
 		return shape;
 	}
 
-	private void updatePhysicsBasedOnLayer() {
-		Vec2 newPos = new Vec2(layer.tx() / 10,//
-				layer.ty() / 10);
-		body.setTransform(newPos, body.getAngle());
+	private Body body;
+	public final Layer layer;
+	private static final Image IMAGE = ImageLoader.getImage("player").subImage(
+			0, 0, 32, 32);
+
+	private Player() {
+		this.layer = graphics().createImageLayer(IMAGE)//
+				.setOrigin(32 / 2, 32 / 2);
 	}
 
-	public void draw() {
-		graphics().rootLayer().add(layer);
+	public Player position(float screenX, float screenY) {
+		Vec2 worldPosition = new Vec2(screenX / 10, //
+				screenY / 10);
+		body.setTransform(worldPosition, body.getAngle());
+		updateLayerPosition();
+		return this;
+	}
+
+	private void updateLayerPosition() {
+		Vec2 bodyPosition = body.getPosition();
+		layer.setTranslation(bodyPosition.x * 10, bodyPosition.y * 10);
+		layer.setRotation(body.getAngle());
 	}
 
 	public void update(int deltaMS) {
-		// vx += ax * deltaMS / 1000f;
-		// vy += ay * deltaMS / 1000f;
-		// x = x + vx * deltaMS / 1000f;
-		// y = y + vy * deltaMS / 1000f;
-		//
-		// layer.setTx(x);
-		// layer.setTy(y);
-		updatePhysicsBasedOnLayer();
+		updateLayerPosition();
 	}
 
-	public boolean collision(int width, int height) {
-		if (x < 0) {
-			return true;
-		} else if (x > width || y > height) {
-			return true;
-		}
-		return false;
+	public void moveLeft(int deltaMS) {
+		body.setTransform(new Vec2(body.getPosition().x-1, body.getPosition().y), body.getAngle());
+		updateLayerPosition();
 	}
 
-	public void jump() {
-		// vy = -100;
-		updatePhysicsBasedOnLayer();
+	public void moveRight(int deltaMS) {
+		body.setTransform(new Vec2(body.getPosition().x+1, body.getPosition().y), body.getAngle());
+		updateLayerPosition();
 	}
 
 }
