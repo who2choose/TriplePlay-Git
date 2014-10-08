@@ -20,10 +20,11 @@ import playn.core.Pointer.Event;
 
 public class GridScreen extends CustomScreen {
 
-	private World box2dWorld;
+	public static World box2dWorld;
 	private Grid grid;
 	private Player player;
 	private CharacterController characterController;
+	private final float GRAVITY = 15f;
 
 	private List<Charlie> charlies = Lists.newArrayList();
 
@@ -35,7 +36,7 @@ public class GridScreen extends CustomScreen {
 	}
 
 	private void createWorld() {
-		box2dWorld = new World(new Vec2(0, 9.8f));
+		box2dWorld = new World(new Vec2(0, GRAVITY));
 		box2dWorld.setWarmStarting(true);
 		box2dWorld.setAutoClearForces(true);
 	}
@@ -86,6 +87,18 @@ public class GridScreen extends CustomScreen {
 			break;
 		case SPACE:
 			characterController.setInputStateOn(Direction.JUMP);
+			break;
+		case D:
+			box2dWorld.setGravity(new Vec2(GRAVITY, 0));
+			break;
+		case W:
+			box2dWorld.setGravity(new Vec2(0, -GRAVITY));
+			break;
+		case A:
+			box2dWorld.setGravity(new Vec2(-GRAVITY, 0));
+			break;
+		case S:
+			box2dWorld.setGravity(new Vec2(0, GRAVITY));
 			break;
 		default:
 			break;

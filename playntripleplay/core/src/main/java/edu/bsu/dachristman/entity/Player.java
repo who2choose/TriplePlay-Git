@@ -11,6 +11,7 @@ import org.jbox2d.dynamics.FixtureDef;
 import org.jbox2d.dynamics.World;
 
 import edu.bsu.dachristman.backend.ImageLoader;
+import edu.bsu.dachristman.screen.GridScreen;
 import playn.core.Image;
 import playn.core.Layer;
 
@@ -34,7 +35,7 @@ public final class Player {
 	private static FixtureDef createFixtureDef() {
 		FixtureDef fixtureDef = new FixtureDef();
 		fixtureDef.shape = createPlayerBox();
-		fixtureDef.density = 1000f;
+		fixtureDef.density = 0f;
 		fixtureDef.friction = 0.0f;
 		fixtureDef.restitution = 0.0f;
 		fixtureDef.userData = "Player";
@@ -90,7 +91,7 @@ public final class Player {
 	}
 	
 	public void moveNone(int deltaMS) {
-		body.setLinearVelocity(new Vec2(0, body.getLinearVelocity().y));
+		body.setLinearVelocity(new Vec2(GridScreen.box2dWorld.getGravity().x, body.getLinearVelocity().y));
 //		body.applyForceToCenter(new Vec2(20, 0));
 //		body.setTransform(new Vec2(body.getPosition().x+1, body.getPosition().y), body.getAngle());
 		updateLayerPosition();
