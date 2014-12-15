@@ -1,7 +1,5 @@
 package edu.bsu.dachristman.core;
 
-import static playn.core.PlayN.graphics;
-
 import org.jbox2d.collision.shapes.PolygonShape;
 import org.jbox2d.common.Vec2;
 import org.jbox2d.dynamics.Body;
@@ -13,23 +11,17 @@ import org.jbox2d.dynamics.World;
 public class Floor {
 
 	public Floor(World world) {
-		BodyDef floorBodyDef = createBodyDef(graphics().width() / 2 / 10,
-				graphics().height() / 10); // 32, 48
+		BodyDef floorBodyDef = createBodyDef(9.5f, 14.5f);
 		Body floorBody = world.createBody(floorBodyDef);
-		floorBody.createFixture(createFixtureDef("Floor",
-				graphics().width() / 2 / 10, 0));//32, 0
-
-		BodyDef rightWallBodyDef = createBodyDef(0, 24);
-		Body rightWallBody = world.createBody(rightWallBodyDef);
-		rightWallBody.createFixture(createFixtureDef("Right Wall", 0, 24));
-
-		BodyDef leftWallBodyDef = createBodyDef(64, 24);
-		Body leftWallBody = world.createBody(leftWallBodyDef);
-		leftWallBody.createFixture(createFixtureDef("Left Wall", 0, 24));
+		floorBody.createFixture(createFixtureDef("Floor", 100, 0));
 		
-		BodyDef ceilingBodyDef = createBodyDef(32, 0);
-		Body ceilingBody = world.createBody(ceilingBodyDef);
-		ceilingBody.createFixture(createFixtureDef("Ceiling", 32, 0));
+		BodyDef rightWallBodyDef = createBodyDef(19, 7);
+		Body rightWallBody = world.createBody(rightWallBodyDef);
+		rightWallBody.createFixture(createFixtureDef("Right Wall", 0, 14));
+		
+		BodyDef leftWallBodyDef = createBodyDef(0, 7);
+		Body leftWallBody = world.createBody(leftWallBodyDef);
+		leftWallBody.createFixture(createFixtureDef("Left Wall", 0, 14));
 	}
 
 	private BodyDef createBodyDef(float x, float y) {

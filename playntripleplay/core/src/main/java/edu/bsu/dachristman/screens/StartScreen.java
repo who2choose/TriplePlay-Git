@@ -2,9 +2,9 @@ package edu.bsu.dachristman.screens;
 
 import static playn.core.PlayN.graphics;
 import edu.bsu.dachristman.components.Images;
-import edu.bsu.dachristman.systems.SoundManager;
 import playn.core.util.Clock;
 import react.Slot;
+import tripleplay.game.ScreenStack;
 import tripleplay.game.UIScreen;
 import tripleplay.ui.Background;
 import tripleplay.ui.Button;
@@ -16,49 +16,29 @@ import tripleplay.ui.layout.AxisLayout;
 public class StartScreen extends UIScreen {
 
 	private Root root;
-	private final ScreenManager screenManager;
-	private SoundManager soundManager;
+	private ScreenStack screenStack;
 
-	public StartScreen(ScreenManager screenManager, SoundManager soundManager) {
-		this.soundManager = soundManager;
-		this.screenManager = screenManager;
+	public StartScreen(ScreenStack screenStack) {
+		this.screenStack = screenStack;
 		createUIRoot();
 		createButtons();
-		this.soundManager.loopMusic();
 	}
 
 	private void createUIRoot() {
-		root = iface.createRoot(new AxisLayout.Vertical().gap(40),
-				SimpleStyles.newSheet(), layer);
+		root = iface.createRoot(new AxisLayout.Vertical().gap(40), SimpleStyles.newSheet(), layer);
 		root.setBounds(0, 0, graphics().width(), graphics().height());
-		root.addStyles(Style.BACKGROUND.is(Background.image((Images.HOME
-				.getImage()))));
+		root.addStyles(Style.BACKGROUND.is(Background.image((Images.BACKGROUNDMAIN.getImage()))));
 	}
 
 	private void createButtons() {
 		Button playButton = new Button("Play");
-		Button highScoreButton = new Button("High Scores");
-		Button creditsButton = new Button("Rules and Credits");
-		root.add(playButton).add(highScoreButton).add(creditsButton);
+		root.add(playButton);
 
 		playButton.clicked().connect(new Slot<Button>() {
 			@Override
 			public void onEmit(Button event) {
-				screenManager.screenToLevelSelect();
-			}
-		});
-
-		highScoreButton.clicked().connect(new Slot<Button>() {
-			@Override
-			public void onEmit(Button event) {
-				screenManager.screenToHighScore();
-			}
-		});
-
-		creditsButton.clicked().connect(new Slot<Button>() {
-			@Override
-			public void onEmit(Button event) {
-				screenManager.screenToCredits();
+				screenStack.remove(screenStack.top());
+				screenStack.push(new GameScreen(screenStack));
 			}
 		});
 	}
