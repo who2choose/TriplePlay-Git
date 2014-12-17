@@ -1,0 +1,12 @@
+1.Kevin.15,Drew.05,JT.00
+2.Kevin.25,Drew.15,JT.10
+3.Kevin.35,Drew.25,JT.00
+4.Kevin.15,Drew.05,JT.00
+5.Kevin.25,Drew.15,JT.10
+6.Kevin.35,Drew.25,JT.00
+7.Kevin.15,Drew.05,JT.00
+8.Kevin.25,Drew.15,JT.10
+9.Kevin.35,Drew.25,JT.00
+10.Kevin.15,Drew.05,JT.00
+11.Kevin.25,Drew.15,JT.10
+12.Kevin.35,Drew.25,JT.00

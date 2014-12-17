@@ -1,0 +1,7 @@
+This game was made with the help of:
+     Drew Christman
+     Kevin Fulkerson
+     Justin Miller
+     Andrew Verhagen
+at Ball State University in CS315
+     taught by Paul Gestwicki

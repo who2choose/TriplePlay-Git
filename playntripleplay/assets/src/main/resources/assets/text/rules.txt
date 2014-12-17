@@ -1,0 +1,7 @@
+When not in game:
+     click the buttons to navigate
+     press escape to return to the Start Screen
+While in game:
+     use W, A, S, D to control gravity
+     press escape or click to pause current game
+     press q while paused to end game
