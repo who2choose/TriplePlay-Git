@@ -8,12 +8,12 @@ public class Contact implements ContactListener{
 
 	@Override
 	public void beginContact(org.jbox2d.dynamics.contacts.Contact contact) {
-		java.lang.System.out.printf("begin[%s, %s]\n", contact.getFixtureA().getUserData(), contact.getFixtureB().getUserData());
+//		java.lang.System.out.printf("begin[%s, %s]\n", contact.getFixtureA().getUserData(), contact.getFixtureB().getUserData());
 	}
 
 	@Override
 	public void endContact(org.jbox2d.dynamics.contacts.Contact contact) {
-		java.lang.System.out.printf("end[%s, %s]\n", contact.getFixtureA().getUserData(), contact.getFixtureB().getUserData());
+//		java.lang.System.out.printf("end[%s, %s]\n", contact.getFixtureA().getUserData(), contact.getFixtureB().getUserData());
 	}
 
 	@Override
