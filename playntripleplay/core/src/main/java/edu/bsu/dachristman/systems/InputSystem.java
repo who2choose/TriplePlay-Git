@@ -1,15 +1,18 @@
 package edu.bsu.dachristman.systems;
 
+import edu.bsu.dachristman.components.Kat;
 import edu.bsu.dachristman.components.Lazor;
 import playn.core.PlayN;
 
 public class InputSystem implements playn.core.Pointer.Listener {
 
 	private Lazor lazor;
+	private Kat kat;
 	
-	public InputSystem(Lazor lazor) {
+	public InputSystem(Lazor lazor, Kat kat) {
 		PlayN.pointer().setListener(this);
 		this.lazor = lazor;
+		this.kat = kat;
 	}
 
 	public void destroy() {
@@ -23,7 +26,7 @@ public class InputSystem implements playn.core.Pointer.Listener {
 
 	@Override
 	public void onPointerEnd(playn.core.Pointer.Event event) {
-
+//		kat.nextState();
 	}
 
 	@Override

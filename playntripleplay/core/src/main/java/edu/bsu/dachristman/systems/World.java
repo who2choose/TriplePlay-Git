@@ -23,12 +23,14 @@ public class World extends tripleplay.entity.World{
 
 	private org.jbox2d.dynamics.World physicsWorld;
 	private final float SCALING_FACTOR = 1.0f / 32.0f;
+	private Contact contactSystem;
 	
 	public World(){
 		physicsWorld = new org.jbox2d.dynamics.World(new Vec2(0.0f, 0.5f));
 		physicsWorld.setWarmStarting(true);
 		physicsWorld.setAutoClearForces(true);
-		physicsWorld.setContactListener(new Contact());
+		contactSystem = new Contact(this);
+		physicsWorld.setContactListener(contactSystem);
 	}
 	
 	//COMPONENTS
@@ -36,6 +38,7 @@ public class World extends tripleplay.entity.World{
 	private final Component.Generic<ImageLayer> imageLayer = new Component.Generic<ImageLayer>(this);
 	private final Component.XY position = new Component.XY(this);
 	private final Component.XY moving = new Component.XY(this);
+	private final Component.Generic<Boolean> inContact = new Component.Generic<Boolean>(this);
 	
 	//SYSTEMS
 	public final System physics = new System(this, 2) {
@@ -101,11 +104,10 @@ public class World extends tripleplay.entity.World{
 
 		@Override
 		protected void update(int delta, Entities entities) {
-			physicsWorld.step(delta / 1000f, 10, 10);
 			for (int i = 0, j = entities.size(); i < j; i++) {
 				int entityId = entities.get(i);
 				Body currentBody = body.get(entityId);
-				currentBody.setTransform(currentBody.getPosition().sub(new Vec2(0.05f, 0)), currentBody.getAngle());
+				currentBody.setTransform(currentBody.getPosition().sub(new Vec2(0.1f, 0)), currentBody.getAngle());
 			}
 		}
 
@@ -150,8 +152,19 @@ public class World extends tripleplay.entity.World{
 		return this;
 	}
 	
+	public World addPosImageComponents(){
+		_e.add(position, imageLayer);
+		return this;
+	}
+	
 	public World addMotionComponents(){
 		_e.add(moving);
+		return this;
+	}
+	
+	public World addContactComponents(){
+		_e.add(inContact);
+		inContact.set(_id, false);
 		return this;
 	}
 	
@@ -252,6 +265,11 @@ public class World extends tripleplay.entity.World{
 		body.get(_id).setTransform(new Vec2(_x, _y), body.get(_id).getAngle());
 	}
 	
+	public void setPosition(int entityID, float x, float y){
+		_id = entityID;
+		setXY(x*SCALING_FACTOR, y*SCALING_FACTOR);
+	}
+	
 	public void setMotion(int entityID, Vec2 velocity){
 		_id = entityID;
 		body.get(_id).setLinearVelocity(velocity);
@@ -263,6 +281,25 @@ public class World extends tripleplay.entity.World{
 	
 	public Vec2 getLinearVelocity(int entityID){
 		return body.get(entityID).getLinearVelocity();
+	}
+	
+	//CONTACT MODIFICATION
+	public void setInContact(int entityID, boolean setTo){
+		_id = entityID;
+		inContact.set(_id, setTo);
+	}
+	
+	public boolean hasContact(int entityID){
+		return entity(entityID).has(inContact);
+	}
+	
+	public boolean inContact(int entityID){
+		_id = entityID;
+		if (hasContact(_id)){
+			return inContact.get(_id);
+		} else {
+			return false; //might need to change this
+		}
 	}
 	
 }

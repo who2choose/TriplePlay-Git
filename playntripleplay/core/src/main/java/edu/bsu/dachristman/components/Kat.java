@@ -18,12 +18,13 @@ public class Kat {
 	public Kat(World world, Entity lazor) {
 		this.world = world;
 		this.lazor = lazor;
-		kat = this.world.createNew().addEntityComponents().setXY(3f, 13f)//
+		kat = this.world.createNew().addEntityComponents()
+				.addContactComponents().setXY(3f, 13f)//
 				.createBodyDef(BodyType.DYNAMIC).createFixtureDef()//
 				.setShape(world.createCircle(0.5f))//
 				.setFixtureDef(0, 1f, 0f).createBody()//
 				.setImage(Images.KAT.getImage()).setImageLayer().getEntity();
-		state = jump;
+		state = stay;
 		timer();
 	}
 
@@ -34,17 +35,20 @@ public class Kat {
 
 	private void timer() {
 		timer = new Timer();
-		timer.atThenEvery(0, 500, new Runnable() {
+		timer.atThenEvery(0, 250, new Runnable() {
 			@Override
 			public void run() {
-				nextState();
+				tryToJump();
 			}
 		});
 	}
 
-	public void nextState() {
-		if ((world.getLinearVelocity(kat.id).abs().x < 0.1) && (world.getLinearVelocity(kat.id).abs().y < 0.1)) {
-			setState((state == stay) ? jump : stay);
+	public void tryToJump() {
+		if (world.inContact(kat.id)) {
+			setState(jump);
+		}
+		if ((world.getLinearVelocity(kat.id).abs().x < 0.1) && (world.getLinearVelocity(kat.id).abs().y < 0.1)){
+			setState(jump);
 		}
 	}
 
@@ -76,6 +80,7 @@ public class Kat {
 		@Override
 		public void onEnter() {
 			world.setMotion(kat.id, world.getPosition(lazor.id).sub(world.getPosition(kat.id)).mul(0.4f));
+			setState(stay);
 		}
 	};
 

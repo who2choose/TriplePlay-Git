@@ -31,7 +31,7 @@ public class GameScreen extends UIAnimScreen {
 		blocks = new Blocks(world);
 		lazor = new Lazor(world);
 		kat = new Kat(world, lazor.getEntity());
-		new InputSystem(lazor);
+		new InputSystem(lazor, kat);
 	}
 
 	@Override
